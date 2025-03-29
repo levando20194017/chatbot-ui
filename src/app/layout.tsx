@@ -8,8 +8,8 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "RAG Web UI",
-  description: "A web UI for RAG applications",
+  title: "Chatbot UI",
+  description: "A web UI for chatbot",
 };
 
 export default function RootLayout({

@@ -36,7 +36,7 @@ export default function LoginPage() {
       });
 
       localStorage.setItem("token", data.access_token);
-      router.push("/dashboard");
+      router.push("/");
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);

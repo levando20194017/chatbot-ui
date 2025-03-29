@@ -28,9 +28,9 @@ export default function DashboardLayout({
   };
 
   const navigation = [
-    { name: "Knowledge Base", href: "/dashboard/knowledge", icon: Book },
-    { name: "Chat", href: "/dashboard/chat", icon: MessageSquare },
-    { name: "API Keys", href: "/dashboard/api-keys", icon: User },
+    { name: "Knowledge Base", href: "/knowledge", icon: Book },
+    { name: "Chat", href: "/chat", icon: MessageSquare },
+    // { name: "API Keys", href: "/api-keys", icon: User },
   ];
 
   return (
@@ -55,7 +55,7 @@ export default function DashboardLayout({
           {/* Sidebar header */}
           <div className="flex h-16 items-center border-b pl-8">
             <Link
-              href="/dashboard"
+              href="/"
               className="flex items-center text-lg font-semibold hover:text-primary transition-colors"
             >
               <img
@@ -125,18 +125,18 @@ export const dashboardConfig = {
   sidebarNav: [
     {
       title: "Knowledge Base",
-      href: "/dashboard/knowledge",
+      href: "/knowledge",
       icon: "database",
     },
     {
       title: "Chat",
-      href: "/dashboard/chat",
+      href: "/chat",
       icon: "messageSquare",
     },
-    {
-      title: "API Keys",
-      href: "/dashboard/api-keys",
-      icon: "key",
-    },
+    // {
+    //   title: "API Keys",
+    //   href: "/api-keys",
+    //   icon: "key",
+    // },
   ],
 };
