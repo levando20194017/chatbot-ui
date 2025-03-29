@@ -89,7 +89,7 @@ export default function KnowledgeBasePage() {
             </p>
           </div>
           <Link
-            href="/dashboard/knowledge/new"
+            href="/knowledge/new"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
             <Plus className="mr-2 h-4 w-4" />
@@ -117,13 +117,13 @@ export default function KnowledgeBasePage() {
 
                 <div className="flex space-x-2">
                   <Link
-                    href={`/dashboard/knowledge/${kb.id}`}
+                    href={`/knowledge/${kb.id}`}
                     className="inline-flex items-center justify-center rounded-md bg-secondary w-8 h-8"
                   >
                     <Settings className="h-4 w-4" />
                   </Link>
                   <Link
-                    href={`/dashboard/test-retrieval/${kb.id}`}
+                    href={`/test-retrieval/${kb.id}`}
                     className="inline-flex items-center justify-center rounded-md bg-secondary w-8 h-8"
                   >
                     <Search className="h-4 w-4" />
@@ -175,7 +175,7 @@ export default function KnowledgeBasePage() {
                     ))}
                     {kb.documents.length > 9 && (
                       <Link
-                        href={`/dashboard/knowledge/${kb.id}`}
+                        href={`/knowledge/${kb.id}`}
                         className="flex flex-col items-center p-2 rounded-lg border bg-card hover:bg-accent/50 cursor-pointer transition-colors w-[150px] h-[150px] justify-center"
                       >
                         <div className="w-8 h-8 mb-2 flex items-center justify-center">

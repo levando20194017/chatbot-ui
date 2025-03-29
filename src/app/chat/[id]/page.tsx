@@ -144,7 +144,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
           variant: "destructive",
         });
       }
-      router.push("/dashboard/chat");
+      router.push("/chat");
     }
   };
 
