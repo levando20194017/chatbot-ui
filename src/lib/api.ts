@@ -48,7 +48,7 @@ export async function fetchApi(fullUrl: string, options: FetchOptions = {}) {
   }
 
   try {
-    const response = await fetch(`${ process.env.NEXT_API_BASE_URL + fullUrl}`, config);
+    const response = await fetch(`${ "http://127.0.0.1:8000" + fullUrl}`, config);
 
     if (response.status === 401) {
       if (typeof window !== 'undefined') {
