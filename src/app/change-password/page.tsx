@@ -4,37 +4,62 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
 
-interface LoginResponse {
-  access_token: string;
-  token_type: string;
-}
-
 export default function ChangePasswordPage() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
   const [loading, setLoading] = useState(false);
+
+  const validatePassword = (password: string) => {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long";
+    }
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one uppercase letter";
+    }
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least one lowercase letter";
+    }
+    if (!/[0-9]/.test(password)) {
+      return "Password must contain at least one number";
+    }
+    return "";
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    setValidationErrors({ newPassword: "", confirmPassword: "" });
 
     const formData = new FormData(e.currentTarget);
-    const username = formData.get("username");
-    const password = formData.get("password");
-    const newPassword = formData.get("new-password")
+    const oldPassword = formData.get("old-password") as string;
+    const newPassword = formData.get("new-password") as string;
+    const confirmPassword = formData.get("confirm-password") as string;
 
+    const passwordError = validatePassword(newPassword);
+    if (passwordError) {
+      setValidationErrors((prev) => ({ ...prev, newPassword: passwordError }));
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        confirmPassword: "Passwords do not match",
+      }));
+      return;
+    }
+
+    setLoading(true);
     try {
-      const formUrlEncoded = new URLSearchParams();
-      formUrlEncoded.append("username", username as string);
-      formUrlEncoded.append("password", password as string);
-      formUrlEncoded.append("newPassword", newPassword as string);
+      const bodyData = {
+        old_password: oldPassword,
+        new_password: newPassword,
+      }
 
-      const data = await api.post("/api/auth/change-password", formUrlEncoded, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      const data = await api.post("/api/auth/change-password", bodyData);
 
       router.push("/");
     } catch (err) {
@@ -65,37 +90,19 @@ export default function ChangePasswordPage() {
             <div className="space-y-4">
               <div>
                 <label
-                  htmlFor="username"
+                  htmlFor="old password"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Username
+                  Old password
                 </label>
                 <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  required
-                  disabled={loading}
-                  className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter your username"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
+                  id="old-password"
+                  name="old-password"
                   type="password"
                   required
                   disabled={loading}
                   className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter your password"
+                  placeholder="Enter your old password"
                 />
               </div>
 
@@ -116,12 +123,35 @@ export default function ChangePasswordPage() {
                   placeholder="Enter your new password"
                 />
               </div>
+
+              <div>
+                <label
+                  htmlFor="confirm password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Confirm password
+                </label>
+                <input
+                  id="confirm-password"
+                  name="confirm-password"
+                  type="password"
+                  required
+                  disabled={loading}
+                  className="mt-1 block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your confirm password"
+                />
+              </div>
             </div>
 
             {error && (
               <div className="p-3 rounded-md bg-red-50 text-red-700 text-sm">
                 {error}
               </div>
+            )}
+            {validationErrors && (
+                <p className="mt-1 text-sm text-red-600">
+                  {validationErrors.confirmPassword || validationErrors.newPassword}
+                </p>
             )}
 
             <button
