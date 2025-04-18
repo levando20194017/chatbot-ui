@@ -192,7 +192,7 @@ export default function DashboardPage() {
           </h2>
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start gap-6 p-6 bg-slate-100">
-              <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-indigo-600 text-white font-semibold mx-auto sm:mx-0">
+              <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-blue-600 text-white font-semibold mx-auto sm:mx-0">
                 1
               </div>
               <div className="flex-1">
@@ -237,7 +237,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-start gap-6 p-6 bg-slate-100">
-              <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-indigo-600 text-white font-semibold mx-auto sm:mx-0">
+              <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-purple-600 text-white font-semibold mx-auto sm:mx-0">
                 3
               </div>
               <div className="flex-1">
