@@ -60,7 +60,7 @@ export default function DashboardPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 max-w-7xl mx-auto">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto">
         {/* Hero Section */}
         <div className="mb-12 rounded-2xl bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-8 shadow-sm">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -185,17 +185,17 @@ export default function DashboardPage() {
         </div>
 
         {/* Getting Started Guide */}
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-8 shadow-sm">
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6 flex items-center">
             <Search className="mr-3 h-5 w-5 text-blue-600 dark:text-blue-400" />
             How It Works
           </h2>
           <div className="space-y-6">
-            <div className="flex items-start gap-6 p-6 rounded-xl bg-slate-50 dark:bg-slate-700/30">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white font-semibold">
+            <div className="flex flex-col sm:flex-row items-start gap-6 p-6 bg-slate-100">
+              <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-indigo-600 text-white font-semibold mx-auto sm:mx-0">
                 1
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="font-medium text-lg text-slate-900 dark:text-white mb-2">
                   Create a Knowledge Base
                 </h3>
@@ -214,11 +214,11 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="flex items-start gap-6 p-6 rounded-xl bg-slate-50 dark:bg-slate-700/30">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white font-semibold">
+            <div className="flex flex-col sm:flex-row items-start gap-6 p-6 bg-slate-50">
+              <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-indigo-600 text-white font-semibold mx-auto sm:mx-0">
                 2
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="font-medium text-lg text-slate-900 dark:text-white mb-2">
                   Upload Your Documents
                 </h3>
@@ -236,11 +236,11 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="flex items-start gap-6 p-6 rounded-xl bg-slate-50 dark:bg-slate-700/30">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-purple-600 text-white font-semibold">
+            <div className="flex flex-col sm:flex-row items-start gap-6 p-6 bg-slate-100">
+              <div className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-indigo-600 text-white font-semibold mx-auto sm:mx-0">
                 3
               </div>
-              <div>
+              <div className="flex-1">
                 <h3 className="font-medium text-lg text-slate-900 dark:text-white mb-2">
                   Chat With Your Knowledge
                 </h3>
