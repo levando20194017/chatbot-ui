@@ -79,7 +79,7 @@ export default function KnowledgeBasePage() {
   return (
     <DashboardLayout>
       <div className="space-y-8">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h2 className="text-3xl font-bold tracking-tight">
               Knowledge Bases
@@ -151,9 +151,9 @@ export default function KnowledgeBasePage() {
                             <FileIcon extension="md" {...defaultStyles.md} />
                           ) : doc.content_type.toLowerCase().includes("xls") ? (
                             <FileIcon extension="xls" {...defaultStyles.xls} />
-                          ): doc.content_type.toLowerCase().includes("xlsx") ? (
+                          ) : doc.content_type.toLowerCase().includes("xlsx") ? (
                             <FileIcon extension="xlsx" {...defaultStyles.xlsx} />
-                          ): (
+                          ) : (
                             <FileIcon
                               extension={doc.file_name.split(".").pop() || ""}
                               color="#E2E8F0"
