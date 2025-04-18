@@ -59,11 +59,11 @@ export default function DashboardLayout({
               className="flex items-center text-lg font-semibold hover:text-primary transition-colors"
             >
               <img
-                src="/logo.svg"
+                src="/logo_TNG-removebg.png"
                 alt="Logo"
-                className="w-16 h-16 rounded-lg"
+                className="w-10 h-10 rounded-lg"
               />
-              RAG Web UI
+              TNG AI Chat
             </Link>
           </div>
 

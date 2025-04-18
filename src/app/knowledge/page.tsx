@@ -122,12 +122,6 @@ export default function KnowledgeBasePage() {
                   >
                     <Settings className="h-4 w-4" />
                   </Link>
-                  <Link
-                    href={`/test-retrieval/${kb.id}`}
-                    className="inline-flex items-center justify-center rounded-md bg-secondary w-8 h-8"
-                  >
-                    <Search className="h-4 w-4" />
-                  </Link>
                   <button
                     onClick={() => handleDelete(kb.id)}
                     className="inline-flex items-center justify-center rounded-md bg-destructive/10 hover:bg-destructive/20 w-8 h-8"
@@ -155,7 +149,11 @@ export default function KnowledgeBasePage() {
                             <FileIcon extension="txt" {...defaultStyles.txt} />
                           ) : doc.content_type.toLowerCase().includes("md") ? (
                             <FileIcon extension="md" {...defaultStyles.md} />
-                          ) : (
+                          ) : doc.content_type.toLowerCase().includes("xls") ? (
+                            <FileIcon extension="xls" {...defaultStyles.xls} />
+                          ): doc.content_type.toLowerCase().includes("xlsx") ? (
+                            <FileIcon extension="xlsx" {...defaultStyles.xlsx} />
+                          ): (
                             <FileIcon
                               extension={doc.file_name.split(".").pop() || ""}
                               color="#E2E8F0"

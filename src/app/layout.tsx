@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "highlight.js/styles/github.css";
-// 如果使用 App Router
+// App Router
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Chatbot UI",
+  title: "TNG AI Chat",
   description: "A web UI for chatbot",
+  icons: {
+    icon: "/logo_TNG-removebg.png",
+  },
 };
 
 export default function RootLayout({

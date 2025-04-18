@@ -86,6 +86,9 @@ export default function UploadPage({ params }: { params: { id: string } }) {
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
         [".docx"],
       "text/markdown": [".md"],
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+      "application/vnd.ms-excel": [".xls"],
+
     },
   });
 
@@ -273,7 +276,7 @@ export default function UploadPage({ params }: { params: { id: string } }) {
             Drag and drop files here, or click to select files
           </p>
           <p className="mt-2 text-xs text-muted-foreground">
-            Supported formats: PDF, DOCX, TXT, MD
+            Supported formats: PDF, DOCX, TXT, MD, EXCEL
           </p>
         </div>
 

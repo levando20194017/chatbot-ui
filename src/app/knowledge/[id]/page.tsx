@@ -43,7 +43,7 @@ export default function KnowledgeBasePage() {
               <DialogTitle>Add Document</DialogTitle>
               <DialogDescription>
                 Upload a document to your knowledge base. Supported formats:
-                PDF, DOCX, Markdown, and Text files.
+                PDF, DOCX, Markdown, Text and Excel files.
               </DialogDescription>
             </DialogHeader>
             <DocumentUploadSteps
