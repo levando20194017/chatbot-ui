@@ -17,9 +17,9 @@ export default function DashboardLayout({
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // if (!token) {
-    //   router.push("/login");
-    // }
+    if (!token) {
+      router.push("/login");
+    }
   }, [router]);
 
   const handleLogout = () => {
@@ -97,13 +97,14 @@ export default function DashboardLayout({
             })}
           </nav>
           {/* User profile and logout */}
-          <div className="border-t p-4 space-y-4"><button
-            onClick={handeChangePassword}
-            className="flex w-full items-center rounded-lg px-3 py-2.5 text-sm font-medium  hover:bg-destructive/10 transition-colors duration-200"
-          >
-            <Edit className="mr-3 h-4 w-4" />
-            Change password
-          </button>
+          <div className="border-t p-4 space-y-4">
+            <button
+              onClick={handeChangePassword}
+              className="flex w-full items-center rounded-lg px-3 py-2.5 text-sm font-medium  hover:bg-destructive/10 transition-colors duration-200"
+            >
+              <Edit className="mr-3 h-4 w-4" />
+              Change password
+            </button>
 
             <button
               onClick={handleLogout}
