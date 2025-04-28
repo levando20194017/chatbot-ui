@@ -56,7 +56,8 @@ export default function APIKeysPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
-  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
+  const storedUser = localStorage.getItem("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : {};
 
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);

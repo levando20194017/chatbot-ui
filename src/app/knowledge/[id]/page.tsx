@@ -22,7 +22,9 @@ export default function KnowledgeBasePage() {
   const knowledgeBaseId = parseInt(params.id as string);
   const [refreshKey, setRefreshKey] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
+  const storedUser = localStorage.getItem("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : {};
+
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");

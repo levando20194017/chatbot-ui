@@ -33,7 +33,9 @@ export default function KnowledgeBasePage() {
   const [knowledgeBases, setKnowledgeBases] = useState<KnowledgeBase[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
+  const storedUser = localStorage.getItem("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : {};
+
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");

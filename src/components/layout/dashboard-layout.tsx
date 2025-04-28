@@ -46,7 +46,8 @@ export default function DashboardLayout({
   const { toast } = useToast();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
-  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
+  const storedUser = localStorage.getItem("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : {};
 
   useEffect(() => {
     fetchChats();

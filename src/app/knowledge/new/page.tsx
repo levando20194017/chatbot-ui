@@ -20,7 +20,9 @@ export default function NewKnowledgeBasePage() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
+  const storedUser = localStorage.getItem("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : {};
+
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
   }

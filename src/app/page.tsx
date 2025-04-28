@@ -36,7 +36,9 @@ interface Stats {
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ knowledgeBases: 0, chats: 0 });
-  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
+  const storedUser = localStorage.getItem("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : {};
+
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
