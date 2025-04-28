@@ -25,7 +25,8 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { api, ApiError } from "@/lib/api";
-import { rag_user, status } from "@/utils/const";
+import { status } from "@/utils/const";
+import Cookies from "js-cookie";
 
 export interface User {
   id: number;
@@ -56,8 +57,8 @@ export default function APIKeysPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
-  const storedUser = localStorage.getItem("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : {};
+  const storedUser = Cookies.get("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : null;
 
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);

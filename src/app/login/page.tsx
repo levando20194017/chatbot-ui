@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api, ApiError } from "@/lib/api";
-import { rag_token, rag_user } from "@/utils/const";
+import { rag_token } from "@/utils/const";
+import { saveUserToCookieClient } from "@/utils/cookieUtilsClient";
 interface LoginResponse {
   access_token: string;
   token_type: string;
@@ -36,7 +37,7 @@ export default function LoginPage() {
       });
 
       localStorage.setItem(rag_token, data.access_token);
-      localStorage.setItem(rag_user, JSON.stringify(data.user));
+      saveUserToCookieClient(data.user);
 
       if (data.user.is_admin) {
         router.push("/");

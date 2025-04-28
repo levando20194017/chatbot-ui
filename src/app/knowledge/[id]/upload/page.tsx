@@ -14,7 +14,7 @@ import {
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
-import { rag_user } from "@/utils/const";
+import Cookies from "js-cookie";
 
 interface FileStatus {
   file: File;
@@ -60,9 +60,8 @@ export default function UploadPage({ params }: { params: { id: string } }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { toast } = useToast();
-  const storedUser = localStorage.getItem("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : {};
-
+  const storedUser = Cookies.get("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : null;
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
   }

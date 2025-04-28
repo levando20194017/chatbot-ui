@@ -13,8 +13,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
-import { rag_user } from "@/utils/const";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface KnowledgeBase {
   id: number;
@@ -36,9 +36,8 @@ interface Stats {
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ knowledgeBases: 0, chats: 0 });
-  const storedUser = localStorage.getItem("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : {};
-
+  const storedUser = Cookies.get("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : null;
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");

@@ -8,7 +8,7 @@ import DashboardLayout from "@/components/layout/dashboard-layout";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { rag_user } from "@/utils/const";
+import Cookies from "js-cookie";
 
 interface KnowledgeBase {
   id: number;
@@ -33,9 +33,8 @@ export default function KnowledgeBasePage() {
   const [knowledgeBases, setKnowledgeBases] = useState<KnowledgeBase[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const storedUser = localStorage.getItem("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : {};
-
+  const storedUser = Cookies.get("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : null;
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");

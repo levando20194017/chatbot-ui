@@ -18,6 +18,7 @@ import { rag_token, rag_user } from "@/utils/const";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "../ui/use-toast";
 import { truncateString } from "@/lib/utils";
+import Cookies from "js-cookie";
 
 interface Chat {
   id: number;
@@ -46,8 +47,8 @@ export default function DashboardLayout({
   const { toast } = useToast();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
-  const storedUser = localStorage.getItem("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : {};
+  const storedUser = Cookies.get("rag_user");
+  const userLogin = storedUser ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
     fetchChats();
@@ -89,6 +90,7 @@ export default function DashboardLayout({
   const navigation = userLogin?.is_admin
     ? [
         { id: 1, name: "Knowledge Base", href: "/knowledge", icon: Book },
+        { id: 2, name: "Chat", href: "/chat", icon: MessageSquare },
         { id: 3, name: "Manage Users", href: "/manage-users", icon: User },
       ]
     : chats.map((chat) => ({
