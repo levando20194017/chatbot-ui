@@ -88,7 +88,6 @@ export default function DashboardLayout({
   const navigation = userLogin?.is_admin
     ? [
         { id: 1, name: "Knowledge Base", href: "/knowledge", icon: Book },
-        { id: 2, name: "Chat", href: "/chat", icon: MessageSquare },
         { id: 3, name: "Manage Users", href: "/manage-users", icon: User },
       ]
     : chats.map((chat) => ({
