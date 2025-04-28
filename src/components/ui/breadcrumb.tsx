@@ -1,39 +1,68 @@
 "use client";
 
+import { api } from "@/lib/api";
 import { ChevronRight, Home } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Breadcrumb = () => {
   const pathname = usePathname();
+  const [breadcrumbs, setBreadcrumbs] = useState<any[]>([]);
 
-  const generateBreadcrumbs = () => {
-    const paths = pathname.split("/").filter(Boolean);
-    const breadcrumbs = paths.map((path, index) => {
-      const href = "/" + paths.slice(0, index + 1).join("/");
-      const label =
-        path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " ");
-      const isLast = index === paths.length - 1;
+  useEffect(() => {
+    const generateBreadcrumbs = async () => {
+      const paths = pathname.split("/").filter(Boolean);
 
-      // Handle dynamic routes with [id]
-      const displayLabel = path.match(/^\[.*\]$/) ? "Details" : label;
+      const breadcrumbs: any[] = [];
 
-      return {
-        href,
-        label: displayLabel,
-        isLast,
-      };
-    });
+      for (let index = 0; index < paths.length; index++) {
+        const path = paths[index];
+        const href = "/" + paths.slice(0, index + 1).join("/");
+        const isLast = index === paths.length - 1;
 
-    return breadcrumbs;
+        let displayLabel =
+          path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " ");
+
+        const previousPath = paths[index - 1];
+        if (previousPath === "chat" || previousPath === "knowledge") {
+          const fetchedTitle = await fetchTitleFromId(path, previousPath);
+          displayLabel = fetchedTitle || displayLabel;
+        }
+
+        breadcrumbs.push({
+          href,
+          label: displayLabel,
+          isLast,
+        });
+      }
+
+      setBreadcrumbs(breadcrumbs);
+    };
+
+    generateBreadcrumbs();
+  }, [pathname]);
+
+  const fetchTitleFromId = async (id: string, path: string) => {
+    try {
+      if (path === "chat") {
+        const data = await api.get(`/api/chat/${id}`);
+        return data.title;
+      }
+      if (path === "knowledge") {
+        const data = await api.get(`/api/knowledge-base/${id}`);
+        return data.name;
+      }
+    } catch (error) {
+      console.error("Failed to fetch title:", error);
+      return id; // fallback là id
+    }
   };
-
-  const breadcrumbs = generateBreadcrumbs();
 
   if (pathname === "/") return null;
 
   return (
-    <nav className="flex items-center space-x-2 text-base text-muted-foreground mb-6">
+    <nav className="flex items-center space-x-2 text-base text-muted-foreground">
       <Link
         href="/"
         className="flex items-center hover:text-foreground transition-colors"

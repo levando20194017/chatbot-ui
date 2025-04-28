@@ -8,7 +8,7 @@ import DashboardLayout from "@/components/layout/dashboard-layout";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import { Answer } from "@/components/chat/answer";
-
+import { rag_token } from "@/utils/const";
 interface Message {
   id: string;
   role: "assistant" | "user" | "system" | "data";
@@ -61,7 +61,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
     headers: {
       Authorization: `Bearer ${
         typeof window !== "undefined"
-          ? window.localStorage.getItem("token")
+          ? window.localStorage.getItem(rag_token)
           : ""
       }`,
     },
@@ -297,18 +297,18 @@ export default function ChatPage({ params }: { params: { id: string } }) {
         </div>
         <form
           onSubmit={handleSubmit}
-          className="border-t p-4 flex items-center space-x-4 bg-background absolute bottom-0 left-0 right-0"
+          className="border-t pt-4 flex items-center space-x-4 bg-background absolute bottom-0 left-0 right-0"
         >
           <input
             value={input}
             onChange={handleInputChange}
             placeholder="Type your message..."
-            className="flex-1 min-w-0 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="flex-1 min-w-0 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1"
           />
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1  focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
           >
             <Send className="h-4 w-4" />
           </button>

@@ -185,7 +185,7 @@ export default function APIKeysPage() {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto pt-10">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">API Keys</h1>
           <div className="flex gap-4">

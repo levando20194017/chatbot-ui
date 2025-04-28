@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api, ApiError } from "@/lib/api";
-
+import { rag_token, rag_user } from "@/utils/const";
 interface LoginResponse {
   access_token: string;
   token_type: string;
@@ -35,8 +35,14 @@ export default function LoginPage() {
         },
       });
 
-      localStorage.setItem("token", data.access_token);
-      router.push("/");
+      localStorage.setItem(rag_token, data.access_token);
+      localStorage.setItem(rag_user, JSON.stringify(data.user));
+
+      if (data.user.is_admin) {
+        router.push("/");
+      } else {
+        router.push("/chat/new");
+      }
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);
@@ -114,15 +120,6 @@ export default function LoginPage() {
               {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
-
-          <div className="text-center">
-            <Link
-              href="/register"
-              className="text-sm font-medium text-gray-600 hover:text-gray-500"
-            >
-              Don't have an account? Create one now
-            </Link>
-          </div>
         </div>
       </div>
     </main>

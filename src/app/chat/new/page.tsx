@@ -24,33 +24,29 @@ export default function NewChatPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchKnowledgeBases();
-  }, []);
+  // useEffect(() => {
+  //   fetchKnowledgeBases();
+  // }, []);
 
-  const fetchKnowledgeBases = async () => {
-    try {
-      const data = await api.get("/api/knowledge-base");
-      setKnowledgeBases(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch knowledge bases:", error);
-      if (error instanceof ApiError) {
-        toast({
-          title: "Error",
-          description: error.message,
-          variant: "destructive",
-        });
-      }
-    }
-  };
+  // const fetchKnowledgeBases = async () => {
+  //   try {
+  //     const data = await api.get("/api/knowledge-base");
+  //     setKnowledgeBases(data);
+  //     setIsLoading(false);
+  //   } catch (error) {
+  //     console.error("Failed to fetch knowledge bases:", error);
+  //     if (error instanceof ApiError) {
+  //       toast({
+  //         title: "Error",
+  //         description: error.message,
+  //         variant: "destructive",
+  //       });
+  //     }
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!selectedKB) {
-      setError("Please select a knowledge base");
-      return;
-    }
 
     setError("");
     setIsSubmitting(true);
@@ -79,9 +75,9 @@ export default function NewChatPage() {
     }
   };
 
-  const selectKnowledgeBase = (id: number) => {
-    setSelectedKB(id);
-  };
+  // const selectKnowledgeBase = (id: number) => {
+  //   setSelectedKB(id);
+  // };
 
   if (!isLoading && knowledgeBases.length === 0) {
     return (
@@ -96,7 +92,7 @@ export default function NewChatPage() {
           </p>
           <Link
             href="/knowledge"
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
           >
             <Plus className="mr-2 h-4 w-4" />
             Create Knowledge Base
@@ -108,12 +104,11 @@ export default function NewChatPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-2xl mx-auto space-y-8">
+      <div className="max-w-2xl mx-auto space-y-8 w-full">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Start New Chat</h2>
-          <p className="text-muted-foreground">
-            Select a knowledge base to chat with
-          </p>
+          <h2 className="text-3xl font-bold tracking-tight mt-6">
+            Start New Chat
+          </h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -122,20 +117,20 @@ export default function NewChatPage() {
               htmlFor="title"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Chat Title
+              What can I help with?
             </label>
-            <input
+            <textarea
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              type="text"
+              rows={4}
               required
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
               placeholder="Enter chat title"
             />
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               Knowledge Base
             </label>
@@ -178,7 +173,7 @@ export default function NewChatPage() {
                 ))
               )}
             </div>
-          </div>
+          </div> */}
 
           {error && <div className="text-sm text-red-500">{error}</div>}
 
@@ -186,14 +181,14 @@ export default function NewChatPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={isSubmitting || !selectedKB}
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+              disabled={isSubmitting || !title}
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
             >
               {isSubmitting ? "Creating..." : "Start Chat"}
             </button>

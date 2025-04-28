@@ -13,6 +13,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
+import { getUserStorage } from "@/utils/const";
+import { useRouter } from "next/navigation";
 
 interface KnowledgeBase {
   id: number;
@@ -34,6 +36,11 @@ interface Stats {
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ knowledgeBases: 0, chats: 0 });
+  const userLogin = getUserStorage();
+  const router = useRouter();
+  if (!userLogin?.is_admin) {
+    router.push("/chat/new");
+  }
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -57,6 +64,10 @@ export default function DashboardPage() {
 
     fetchStats();
   }, []);
+
+  if (!userLogin?.is_admin) {
+    return null;
+  }
 
   return (
     <DashboardLayout>

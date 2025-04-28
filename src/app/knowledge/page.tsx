@@ -7,6 +7,8 @@ import { ArrowRight, Plus, Settings, Trash2, Search } from "lucide-react";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { getUserStorage } from "@/utils/const";
 
 interface KnowledgeBase {
   id: number;
@@ -31,6 +33,11 @@ export default function KnowledgeBasePage() {
   const [knowledgeBases, setKnowledgeBases] = useState<KnowledgeBase[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const userLogin = getUserStorage();
+  const router = useRouter();
+  if (!userLogin?.is_admin) {
+    router.push("/chat/new");
+  }
 
   useEffect(() => {
     fetchKnowledgeBases();
@@ -76,12 +83,16 @@ export default function KnowledgeBasePage() {
     }
   };
 
+  if (!userLogin?.is_admin) {
+    return null;
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight">
+            <h2 className="text-3xl font-bold tracking-tight mt-6">
               Knowledge Bases
             </h2>
             <p className="text-muted-foreground">
@@ -151,8 +162,13 @@ export default function KnowledgeBasePage() {
                             <FileIcon extension="md" {...defaultStyles.md} />
                           ) : doc.content_type.toLowerCase().includes("xls") ? (
                             <FileIcon extension="xls" {...defaultStyles.xls} />
-                          ) : doc.content_type.toLowerCase().includes("xlsx") ? (
-                            <FileIcon extension="xlsx" {...defaultStyles.xlsx} />
+                          ) : doc.content_type
+                              .toLowerCase()
+                              .includes("xlsx") ? (
+                            <FileIcon
+                              extension="xlsx"
+                              {...defaultStyles.xlsx}
+                            />
                           ) : (
                             <FileIcon
                               extension={doc.file_name.split(".").pop() || ""}
