@@ -6,5 +6,8 @@ export const status = {
 };
 
 export const getUserStorage = () => {
-  return JSON.parse(localStorage.getItem(rag_user) || "{}");
+  if (typeof window !== "undefined") {
+    return JSON.parse(localStorage.getItem(rag_user) || "{}");
+  }
+  return {};
 };
