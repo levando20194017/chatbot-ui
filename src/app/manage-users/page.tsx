@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { api, ApiError } from "@/lib/api";
-import { getUserStorage, status } from "@/utils/const";
+import { rag_user, status } from "@/utils/const";
 
 export interface User {
   id: number;
@@ -56,7 +56,7 @@ export default function APIKeysPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
-  const userLogin = getUserStorage();
+  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
 
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);

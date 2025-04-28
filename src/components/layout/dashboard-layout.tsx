@@ -14,7 +14,7 @@ import {
   Plus,
 } from "lucide-react";
 import Breadcrumb from "@/components/ui/breadcrumb";
-import { getUserStorage, rag_token, rag_user } from "@/utils/const";
+import { rag_token, rag_user } from "@/utils/const";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "../ui/use-toast";
 import { truncateString } from "@/lib/utils";
@@ -46,7 +46,7 @@ export default function DashboardLayout({
   const { toast } = useToast();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
-  const userLogin = getUserStorage();
+  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
 
   useEffect(() => {
     fetchChats();

@@ -14,7 +14,7 @@ import {
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
-import { getUserStorage } from "@/utils/const";
+import { rag_user } from "@/utils/const";
 
 interface FileStatus {
   file: File;
@@ -60,7 +60,7 @@ export default function UploadPage({ params }: { params: { id: string } }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { toast } = useToast();
-  const userLogin = getUserStorage();
+  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
   }

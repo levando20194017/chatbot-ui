@@ -15,14 +15,14 @@ import {
 } from "@/components/ui/dialog";
 import { PlusIcon } from "lucide-react";
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import { getUserStorage } from "@/utils/const";
+import { rag_user } from "@/utils/const";
 
 export default function KnowledgeBasePage() {
   const params = useParams();
   const knowledgeBaseId = parseInt(params.id as string);
   const [refreshKey, setRefreshKey] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const userLogin = getUserStorage();
+  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");

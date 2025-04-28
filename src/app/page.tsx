@@ -13,7 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
-import { getUserStorage } from "@/utils/const";
+import { rag_user } from "@/utils/const";
 import { useRouter } from "next/navigation";
 
 interface KnowledgeBase {
@@ -36,7 +36,7 @@ interface Stats {
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ knowledgeBases: 0, chats: 0 });
-  const userLogin = getUserStorage();
+  const userLogin = JSON.parse(localStorage.getItem(rag_user) || "{}");
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
