@@ -36,8 +36,14 @@ interface Stats {
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats>({ knowledgeBases: 0, chats: 0 });
-  const storedUser = Cookies.get("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  // const storedUser = Cookies.get("rag_user");
+  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+
+  let userLogin: any = {};
+  if (typeof window !== "undefined") {
+    userLogin = localStorage.getItem("rag_user") || {};
+  }
+
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");

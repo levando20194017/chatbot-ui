@@ -33,8 +33,14 @@ export default function KnowledgeBasePage() {
   const [knowledgeBases, setKnowledgeBases] = useState<KnowledgeBase[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const storedUser = Cookies.get("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  // const storedUser = Cookies.get("rag_user");
+  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+
+  let userLogin: any = {};
+  if (typeof window !== "undefined") {
+    userLogin = localStorage.getItem("rag_user") || {};
+  }
+
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
@@ -164,8 +170,8 @@ export default function KnowledgeBasePage() {
                           ) : doc.content_type.toLowerCase().includes("xls") ? (
                             <FileIcon extension="xls" {...defaultStyles.xls} />
                           ) : doc.content_type
-                              .toLowerCase()
-                              .includes("xlsx") ? (
+                            .toLowerCase()
+                            .includes("xlsx") ? (
                             <FileIcon
                               extension="xlsx"
                               {...defaultStyles.xlsx}

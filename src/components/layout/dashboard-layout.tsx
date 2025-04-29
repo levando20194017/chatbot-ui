@@ -47,8 +47,13 @@ export default function DashboardLayout({
   const { toast } = useToast();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
-  const storedUser = Cookies.get("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  // const storedUser = Cookies.get("rag_user");
+  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+
+  let userLogin: any = {};
+  if (typeof window !== "undefined") {
+    userLogin = localStorage.getItem("rag_user") || {};
+  }
 
   useEffect(() => {
     fetchChats();
@@ -89,16 +94,16 @@ export default function DashboardLayout({
 
   const navigation = userLogin?.is_admin
     ? [
-        { id: 1, name: "Knowledge Base", href: "/knowledge", icon: Book },
-        { id: 2, name: "Chat", href: "/chat", icon: MessageSquare },
-        { id: 3, name: "Manage Users", href: "/manage-users", icon: User },
-      ]
+      { id: 1, name: "Knowledge Base", href: "/knowledge", icon: Book },
+      { id: 2, name: "Chat", href: "/chat", icon: MessageSquare },
+      { id: 3, name: "Manage Users", href: "/manage-users", icon: User },
+    ]
     : chats.map((chat) => ({
-        id: chat.id,
-        name: truncateString(chat.title, 40),
-        href: `/chat/${chat.id}`,
-        icon: MessageSquare,
-      }));
+      id: chat.id,
+      name: truncateString(chat.title, 40),
+      href: `/chat/${chat.id}`,
+      icon: MessageSquare,
+    }));
 
   const handleToggleDropdown = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
@@ -142,9 +147,8 @@ export default function DashboardLayout({
       </div>
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-card border-r transition-transform duration-200 ease-in-out lg:translate-x-0 ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-card border-r transition-transform duration-200 ease-in-out lg:translate-x-0 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         {isMobileMenuOpen && (
           <X
@@ -187,18 +191,16 @@ export default function DashboardLayout({
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`relative group flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                    isActive
+                  className={`relative group flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive
                       ? "bg-gradient-to-r from-primary/10 to-primary/5 text-primary shadow-sm"
                       : "text-muted-foreground hover:bg-accent/50 hover:text-foreground hover:shadow-sm"
-                  }`}
+                    }`}
                 >
                   <item.icon
-                    className={`mr-3 h-5 w-5 transition-transform duration-200 ${
-                      isActive
+                    className={`mr-3 h-5 w-5 transition-transform duration-200 ${isActive
                         ? "text-primary scale-110"
                         : "group-hover:scale-110"
-                    }`}
+                      }`}
                   />
                   <span className="font-medium">{item.name}</span>
                   {!userLogin?.is_admin ? (

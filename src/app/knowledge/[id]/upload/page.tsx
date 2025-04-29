@@ -19,12 +19,12 @@ import Cookies from "js-cookie";
 interface FileStatus {
   file: File;
   status:
-    | "pending"
-    | "uploading"
-    | "uploaded"
-    | "processing"
-    | "completed"
-    | "error";
+  | "pending"
+  | "uploading"
+  | "uploaded"
+  | "processing"
+  | "completed"
+  | "error";
   error?: string;
   uploadId?: number;
   taskId?: number;
@@ -60,8 +60,14 @@ export default function UploadPage({ params }: { params: { id: string } }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { toast } = useToast();
-  const storedUser = Cookies.get("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  // const storedUser = Cookies.get("rag_user");
+  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+
+  let userLogin: any = {};
+  if (typeof window !== "undefined") {
+    userLogin = localStorage.getItem("rag_user") || {};
+  }
+
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
   }
@@ -113,11 +119,11 @@ export default function UploadPage({ params }: { params: { id: string } }) {
         prev.map((f) =>
           f.file.name === result.file_name
             ? {
-                ...f,
-                status: result.skip_processing ? "completed" : "uploaded",
-                uploadId: result.upload_id,
-                documentId: result.document_id,
-              }
+              ...f,
+              status: result.skip_processing ? "completed" : "uploaded",
+              uploadId: result.upload_id,
+              documentId: result.document_id,
+            }
             : f
         )
       );
@@ -132,11 +138,11 @@ export default function UploadPage({ params }: { params: { id: string } }) {
         prev.map((f) =>
           f.file === file
             ? {
-                ...f,
-                status: "error",
-                error:
-                  error instanceof ApiError ? error.message : "Upload failed",
-              }
+              ...f,
+              status: "error",
+              error:
+                error instanceof ApiError ? error.message : "Upload failed",
+            }
             : f
         )
       );
@@ -212,8 +218,8 @@ export default function UploadPage({ params }: { params: { id: string } }) {
                 taskStatus.status === "completed"
                   ? "completed"
                   : taskStatus.status === "failed"
-                  ? "error"
-                  : "processing",
+                    ? "error"
+                    : "processing",
               documentId: taskStatus.document_id || undefined,
               error: taskStatus.error_message || undefined,
             };
@@ -276,11 +282,10 @@ export default function UploadPage({ params }: { params: { id: string } }) {
 
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
-            isDragActive
+          className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${isDragActive
               ? "border-primary bg-primary/5"
               : "border-border hover:border-primary/50"
-          }`}
+            }`}
         >
           <input {...getInputProps()} />
           <Upload className="mx-auto h-12 w-12 text-muted-foreground" />

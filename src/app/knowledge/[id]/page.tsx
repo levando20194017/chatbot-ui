@@ -22,8 +22,14 @@ export default function KnowledgeBasePage() {
   const knowledgeBaseId = parseInt(params.id as string);
   const [refreshKey, setRefreshKey] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const storedUser = Cookies.get("rag_user");
-  const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  // const storedUser = Cookies.get("rag_user");
+  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+
+  let userLogin: any = {};
+  if (typeof window !== "undefined") {
+    userLogin = localStorage.getItem("rag_user") || {};
+  }
+
   const router = useRouter();
   if (!userLogin?.is_admin) {
     router.push("/chat/new");
