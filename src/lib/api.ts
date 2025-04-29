@@ -1,3 +1,4 @@
+"use client";
 import { rag_token, rag_user } from "@/utils/const";
 
 interface FetchOptions extends Omit<RequestInit, "body" | "headers"> {
