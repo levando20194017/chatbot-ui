@@ -9,6 +9,7 @@ import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { rag_user } from "@/utils/const";
 
 interface KnowledgeBase {
   id: number;
@@ -33,18 +34,29 @@ export default function KnowledgeBasePage() {
   const [knowledgeBases, setKnowledgeBases] = useState<KnowledgeBase[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  // const storedUser = Cookies.get("rag_user");
-  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
-
-  let userLogin: any = {};
-  if (typeof window !== "undefined") {
-    userLogin = localStorage.getItem("rag_user") || {};
-  }
-
+  const [userLogin, setUserLogin] = useState<any>(null);
   const router = useRouter();
-  if (!userLogin?.is_admin) {
-    router.push("/chat/new");
-  }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let userStr = Cookies.get(rag_user);
+      let parsedUser = null;
+
+      if (userStr) {
+        try {
+          parsedUser = JSON.parse(userStr);
+        } catch (error) {
+          console.error("Failed to parse rag_user cookie:", error);
+        }
+      }
+
+      setUserLogin(parsedUser);
+
+      if (!parsedUser?.is_admin) {
+        router.push("/chat/new");
+      }
+    }
+  }, []);
 
   useEffect(() => {
     fetchKnowledgeBases();

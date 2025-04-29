@@ -37,8 +37,8 @@ export default function LoginPage() {
       });
 
       localStorage.setItem(rag_token, data.access_token);
-      // saveUserToCookieClient(data.user);
-      localStorage.setItem(rag_user, JSON.stringify(data.user));
+      saveUserToCookieClient(data.user);
+      // localStorage.setItem(rag_user, JSON.stringify(data.user));
 
       if (data.user.is_admin) {
         router.push("/");

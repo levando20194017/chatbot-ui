@@ -40,20 +40,30 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
   const { toast } = useToast();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const [userLogin, setUserLogin] = useState<any>(null);
+  const router = useRouter();
 
-  // const storedUser = Cookies.get("rag_user");
-  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let userStr = Cookies.get(rag_user);
+      let parsedUser = null;
 
-  let userLogin: any = {};
-  if (typeof window !== "undefined") {
-    userLogin = localStorage.getItem("rag_user") || {};
-  }
+      if (userStr) {
+        try {
+          parsedUser = JSON.parse(userStr);
+        } catch (error) {
+          console.error("Failed to parse rag_user cookie:", error);
+        }
+      }
+
+      setUserLogin(parsedUser);
+    }
+  }, []);
 
   useEffect(() => {
     fetchChats();
@@ -192,14 +202,14 @@ export default function DashboardLayout({
                   key={item.name}
                   href={item.href}
                   className={`relative group flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive
-                      ? "bg-gradient-to-r from-primary/10 to-primary/5 text-primary shadow-sm"
-                      : "text-muted-foreground hover:bg-accent/50 hover:text-foreground hover:shadow-sm"
+                    ? "bg-gradient-to-r from-primary/10 to-primary/5 text-primary shadow-sm"
+                    : "text-muted-foreground hover:bg-accent/50 hover:text-foreground hover:shadow-sm"
                     }`}
                 >
                   <item.icon
                     className={`mr-3 h-5 w-5 transition-transform duration-200 ${isActive
-                        ? "text-primary scale-110"
-                        : "group-hover:scale-110"
+                      ? "text-primary scale-110"
+                      : "group-hover:scale-110"
                       }`}
                   />
                   <span className="font-medium">{item.name}</span>

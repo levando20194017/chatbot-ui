@@ -25,8 +25,9 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { api, ApiError } from "@/lib/api";
-import { status } from "@/utils/const";
+import { rag_user, status } from "@/utils/const";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export interface User {
   id: number;
@@ -57,13 +58,29 @@ export default function APIKeysPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
-  // const storedUser = Cookies.get("rag_user");
-  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  const [userLogin, setUserLogin] = useState<any>(null);
+  const router = useRouter();
 
-  let userLogin: any = {};
-  if (typeof window !== "undefined") {
-    userLogin = localStorage.getItem("rag_user") || {};
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let userStr = Cookies.get(rag_user);
+      let parsedUser = null;
+
+      if (userStr) {
+        try {
+          parsedUser = JSON.parse(userStr);
+        } catch (error) {
+          console.error("Failed to parse rag_user cookie:", error);
+        }
+      }
+
+      setUserLogin(parsedUser);
+
+      if (!parsedUser?.is_admin) {
+        router.push("/chat/new");
+      }
+    }
+  }, []);
 
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(10);

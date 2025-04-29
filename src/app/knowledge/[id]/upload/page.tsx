@@ -15,6 +15,7 @@ import DashboardLayout from "@/components/layout/dashboard-layout";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
+import { rag_user } from "@/utils/const";
 
 interface FileStatus {
   file: File;
@@ -54,23 +55,34 @@ interface TaskStatus {
 }
 
 export default function UploadPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
   const [files, setFiles] = useState<FileStatus[]>([]);
   const [processingTasks, setProcessingTasks] = useState<ProcessingTask[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { toast } = useToast();
-  // const storedUser = Cookies.get("rag_user");
-  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  const [userLogin, setUserLogin] = useState<any>(null);
+  const router = useRouter();
 
-  let userLogin: any = {};
-  if (typeof window !== "undefined") {
-    userLogin = localStorage.getItem("rag_user") || {};
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let userStr = Cookies.get(rag_user);
+      let parsedUser = null;
 
-  if (!userLogin?.is_admin) {
-    router.push("/chat/new");
-  }
+      if (userStr) {
+        try {
+          parsedUser = JSON.parse(userStr);
+        } catch (error) {
+          console.error("Failed to parse rag_user cookie:", error);
+        }
+      }
+
+      setUserLogin(parsedUser);
+
+      if (!parsedUser?.is_admin) {
+        router.push("/chat/new");
+      }
+    }
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newFiles = acceptedFiles.map((file) => ({
@@ -283,8 +295,8 @@ export default function UploadPage({ params }: { params: { id: string } }) {
         <div
           {...getRootProps()}
           className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${isDragActive
-              ? "border-primary bg-primary/5"
-              : "border-border hover:border-primary/50"
+            ? "border-primary bg-primary/5"
+            : "border-border hover:border-primary/50"
             }`}
         >
           <input {...getInputProps()} />

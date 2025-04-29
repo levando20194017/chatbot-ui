@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { api, ApiError } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
+import { rag_user } from "@/utils/const";
 
 interface KnowledgeBase {
   id: number;
@@ -16,21 +17,32 @@ interface KnowledgeBase {
 }
 
 export default function NewKnowledgeBasePage() {
-  const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  // const storedUser = Cookies.get("rag_user");
-  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
+  const [userLogin, setUserLogin] = useState<any>(null);
+  const router = useRouter();
 
-  let userLogin: any = {};
-  if (typeof window !== "undefined") {
-    userLogin = localStorage.getItem("rag_user") || {};
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let userStr = Cookies.get(rag_user);
+      let parsedUser = null;
 
-  if (!userLogin?.is_admin) {
-    router.push("/chat/new");
-  }
+      if (userStr) {
+        try {
+          parsedUser = JSON.parse(userStr);
+        } catch (error) {
+          console.error("Failed to parse rag_user cookie:", error);
+        }
+      }
+
+      setUserLogin(parsedUser);
+
+      if (!parsedUser?.is_admin) {
+        router.push("/chat/new");
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

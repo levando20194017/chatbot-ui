@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { DocumentUploadSteps } from "@/components/knowledge-base/document-upload-steps";
 import { DocumentList } from "@/components/knowledge-base/document-list";
 import { Button } from "@/components/ui/button";
@@ -16,24 +16,36 @@ import {
 import { PlusIcon } from "lucide-react";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import Cookies from "js-cookie";
+import { rag_user } from "@/utils/const";
 
 export default function KnowledgeBasePage() {
   const params = useParams();
   const knowledgeBaseId = parseInt(params.id as string);
   const [refreshKey, setRefreshKey] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  // const storedUser = Cookies.get("rag_user");
-  // const userLogin = storedUser ? JSON.parse(storedUser) : null;
-
-  let userLogin: any = {};
-  if (typeof window !== "undefined") {
-    userLogin = localStorage.getItem("rag_user") || {};
-  }
-
+  const [userLogin, setUserLogin] = useState<any>(null);
   const router = useRouter();
-  if (!userLogin?.is_admin) {
-    router.push("/chat/new");
-  }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let userStr = Cookies.get(rag_user);
+      let parsedUser = null;
+
+      if (userStr) {
+        try {
+          parsedUser = JSON.parse(userStr);
+        } catch (error) {
+          console.error("Failed to parse rag_user cookie:", error);
+        }
+      }
+
+      setUserLogin(parsedUser);
+
+      if (!parsedUser?.is_admin) {
+        router.push("/chat/new");
+      }
+    }
+  }, []);
 
   const handleUploadComplete = useCallback(() => {
     setRefreshKey((prev) => prev + 1);
